@@ -9,7 +9,7 @@ package bankInheritance;
  *
  * @author jonathan.gabl
  */
-public class Currency {
+public final class Currency {
     String name;
     String symbol;
     

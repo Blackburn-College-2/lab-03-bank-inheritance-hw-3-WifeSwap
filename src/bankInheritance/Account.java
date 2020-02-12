@@ -5,6 +5,8 @@
  */
 package bankInheritance;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author jonathan.gabl
@@ -12,23 +14,66 @@ package bankInheritance;
 public class Account {
 
     Money balance;
+    ArrayList<Money> history = new ArrayList();
 
-    public Account(Money balance) {
-        this.balance = balance;
+    public Account(Money balance) {        
+        history.add(balance);
+        this.balance=new Money(balance.getCurrency(),balance.getAmount());
     }
 
+    /**
+     * withdraw an amount of money and add the transaction to the history
+     * @param m money to withdraw
+     */
     public void withdraw(Money m) {
-        balance.subtract(m);
+        m.setAmount(-1*m.getAmount());
+        history.add(m);
+        updateBalance();
     }
-
+/**
+     * deposit an amount of money and add the transaction to the history
+     * @param m money to withdraw
+     */
     public void deposit(Money m) {
-        balance.add(m);
+        history.add(m);
+        updateBalance();
     }
-
-    public Money getBalance() {
+/**
+ * calculates the balance based off all transactions and sets the balance equal to that
+ */
+    public void updateBalance() {
+        balance.subtract(balance);
+        for(int i = 0; i < history.size(); i++){
+        balance.add(history.get(i));
+        }
+    }
+    /**
+     * updates the balance and returns the balance
+     * @return balance 
+     */
+    public Money getBalance(){
+        updateBalance();
         return balance;
     }
-    public String printBalance(){
+    /**
+     * returns formatted string
+     * @return 
+     */
+    @Override
+    public String toString(){
+        updateBalance();        
         return balance.toString();
     };
+    /**
+     * prints history of every transaction
+     */
+    public void printHistory(){
+        for(int i=0; i< history.size(); i++){
+            if(history.get(i).getAmount() < 0){
+                System.out.println("Withdrew " + history.get(i));
+            }else{
+                System.out.println("Deposited "+ history.get(i));
+            }
+        }
+    }
 }
