@@ -23,22 +23,26 @@ public class Money {
  * @param input money to add to the current money
  * @return updated money
  */
-    public Money add(Money input) {
-        if (input.currency.name.equals(this.currency.name)) {
-            this.amount = input.amount + this.amount;
+    public static Money add(Money m, Money input) {
+        if (input.currency.name.equals(m.currency.name)) {
+            m.amount = input.amount + m.amount;
         }
-        return this;
+        return m;
     }
 /**
  * subtracts the input from the current amount stored in the money
  * @param input money to subtract from the current money
  * @return updated money
  */
-    public Money subtract(Money input) {
-        if (input.currency.name.equals(this.currency.name)) {
-            this.amount = this.amount - input.amount;
+    public static Money subtract(Money m, Money input) {
+        if (input.currency.name.equals(m.currency.name)) {
+            m.amount = m.amount - input.amount;
         }
-        return this;
+        return m;
+    }
+    public static Money multiply(Money m, double d){
+        m.amount = (int)(m.amount * d);
+        return m;
     }
     /**
      * formats the amount to have 2 decimal places

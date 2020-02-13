@@ -11,10 +11,11 @@ import java.util.ArrayList;
  *
  * @author jonathan.gabl
  */
-public class Account {
+public abstract class Account {
 
     Money balance;
     ArrayList<Money> history = new ArrayList();
+    ArrayList<Transaction> transactions = new ArrayList();
 
     public Account(Money balance) {        
         history.add(balance);
@@ -26,7 +27,9 @@ public class Account {
      * @param m money to withdraw
      */
     public void withdraw(Money m) {
-        m.setAmount(-1*m.getAmount());
+        updateBalance();
+        m.setAmount(-1*m.getAmount());        
+        transactions.add(new Transaction(balance,m));
         history.add(m);
         updateBalance();
     }
@@ -35,16 +38,18 @@ public class Account {
      * @param m money to withdraw
      */
     public void deposit(Money m) {
+        updateBalance();
         history.add(m);
+        transactions.add(new Transaction(balance,m));
         updateBalance();
     }
 /**
  * calculates the balance based off all transactions and sets the balance equal to that
  */
     public void updateBalance() {
-        balance.subtract(balance);
+        balance.subtract(balance,balance);
         for(int i = 0; i < history.size(); i++){
-        balance.add(history.get(i));
+        balance.add(balance,history.get(i));
         }
     }
     /**
@@ -75,5 +80,12 @@ public class Account {
                 System.out.println("Deposited "+ history.get(i));
             }
         }
+    }
+    public Transaction[] getTransaction(){
+        Transaction[] transactionArray = new Transaction[transactions.size()];
+        for(int i = 0; i < transactions.size(); i++){
+            transactionArray[i] = transactions.get(i);
+        }
+        return transactionArray;
     }
 }

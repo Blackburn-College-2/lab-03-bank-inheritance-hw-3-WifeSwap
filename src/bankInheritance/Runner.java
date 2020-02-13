@@ -16,17 +16,15 @@ public class Runner {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
         Currency currency = new Currency("Dollars", "$");
         Money money = new Money(currency, 12.4);
         Money money3 = new Money(currency, 12.4);
         Money money2 = new Money(currency, 5);
-        Account account = new Account(money);
-        System.out.println(account.toString());
+        Account account = new SavingsAccount(money,0);
         account.deposit(money2);
-        System.out.println(account.toString());
         account.withdraw(money3);
-        System.out.println(account.toString());
-        account.printHistory();
+        Transaction.generateStatement(account.getTransaction());
     }
 
 }
